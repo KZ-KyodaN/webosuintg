@@ -24,7 +24,36 @@ define([], function () {
          }
       }
    };
+// ===== TOUCH EVENTS =====
+canvas.addEventListener('touchstart', function (e) {
+    if (e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        game.mouseX = (touch.clientX - rect.left) * (canvas.width / rect.width);
+        game.mouseY = (touch.clientY - rect.top) * (canvas.height / rect.height);
+        game.mouseDown = true;
 
+        if (typeof onMouseDown === 'function') onMouseDown(); // симуляция нажатия
+    }
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchmove', function (e) {
+    if (e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        game.mouseX = (touch.clientX - rect.left) * (canvas.width / rect.width);
+        game.mouseY = (touch.clientY - rect.top) * (canvas.height / rect.height);
+    }
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchend', function (e) {
+    game.mouseDown = false;
+    if (typeof onMouseUp === 'function') onMouseUp(); // симуляция отпускания
+    e.preventDefault();
+}, { passive: false });
+   
    var inUpcoming = function (click) {
       return function (hit) {
          var dx = click.x - hit.x;
