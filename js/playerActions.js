@@ -244,6 +244,37 @@ define([], function () {
             playback.game.M1down ||
             playback.game.M2down;
       };
+      var touchmoveCallback = function (e) {
+   if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const canvas = playback.game.canvas;
+      const rect = canvas.getBoundingClientRect();
+      playback.game.mouseX = ((touch.clientX - rect.left) / rect.width) * 512;
+      playback.game.mouseY = ((touch.clientY - rect.top) / rect.height) * 384;
+
+      movehistory.unshift({
+         x: playback.game.mouseX,
+         y: playback.game.mouseY,
+         t: new Date().getTime(),
+      });
+      if (movehistory.length > 10) movehistory.pop();
+   }
+};
+
+var touchstartCallback = function (e) {
+   e.preventDefault();
+   touchmoveCallback(e);
+   playback.game.M1down = true;
+   playback.game.down = true;
+   checkClickdown();
+};
+
+var touchendCallback = function (e) {
+   e.preventDefault();
+   playback.game.M1down = false;
+   playback.game.down = false;
+};
+
 
       // set eventlisteners
       if (!playback.autoplay) {
