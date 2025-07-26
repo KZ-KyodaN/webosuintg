@@ -196,6 +196,9 @@ button {
 
 canvas {
    display: block;
+   touch-action: none;
+   pointer-events: auto;
+   opacity: 1;
 }
 
 .game-area.showhwmousemedium {
