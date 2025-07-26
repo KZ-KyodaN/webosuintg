@@ -18,7 +18,7 @@ async def start_handler(message: Message):
 # Обработка любого текстового сообщения
 @dp.message()
 async def echo_handler(message: Message):
-    await message.answer(f"Ты сказал: {message.text}")
+    await message.answer(f"Ты сказаыл: {message.text}")
 # Запуск бота
 async def main():
     print("Бот запущен...")
